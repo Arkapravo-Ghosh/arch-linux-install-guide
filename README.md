@@ -1,6 +1,6 @@
 # Arch Linux Installation Guide
 This guide covers everything you need to install a full fledged Arch Linux System with KDE Plasma Desktop Environment.
-
+![visitors](https://visitor-badge.laobi.icu/badge?page_id=Arkapravo-Ghosh.arch-linux-install-guide)
 # Initial Configuration
 
 ## Network Config for liveiso
