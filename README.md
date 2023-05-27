@@ -10,8 +10,8 @@ This guide covers everything you need to install a full fledged Arch Linux Syste
 * `iwctl station <interface> scan` - Scan SSIDs
 * `iwctl station <interface> get-networks` - Check SSID for your preferable network
 * `iwctl station <interface> connect "<ssid>"` - Enter password after hitting enter
-* `ping 1.1.1.1` - Check if DHCP is working
-* `ping archlinux.org` - Check if DNS is working
+* `ping -c 3 1.1.1.1` - Check if DHCP is working
+* `ping -c 3 archlinux.org` - Check if DNS is working
 
 ## Timezone Config for liveiso
 * `timedatectl set-timezone <Region/City>` - Put your timezone here (Asia/Kolkata)
@@ -24,7 +24,9 @@ This guide covers everything you need to install a full fledged Arch Linux Syste
 * `cfdisk /dev/<device>` - Make 3 partitions:
 1. 512M EFI System Partition (`<efi>`)
 2. 8.8G Linux Swap Partition (`<swap>`)
-3. Remaining Size (Preferably 140.3G) Linux Filesystem (`<root>`)
+3. Remaining Size (Preferably 140.3G) Linux Filesystem (`<root>`)\
+<br>
+then write and quit
 * `fdisk -l` - Check the partition numbers properly.
 * `mkfs.fat -F 32 /dev/<efi>` - Format the EFI Filesystem in Fat32
 * `mkswap /dev/<swap>` - Format the Swap Filesystem
@@ -52,7 +54,7 @@ This guide covers everything you need to install a full fledged Arch Linux Syste
 
 * `umount /mnt`
 
-## Mount "@" subvoume to /mnt
+## Mount "@" subvolume to /mnt
 
 * `mount -o noatime,commit=120,compress=zstd,space_cache=v2,subvol=@ /dev/<root> /mnt`
 
@@ -82,7 +84,7 @@ This guide covers everything you need to install a full fledged Arch Linux Syste
 * `mount /dev/<efi> /mnt/boot/efi` - Mount the EFI Partition
 * `swapon /dev/<swap>` - Using the Swap Partition
 
-# Installing the Base Linux System
+# Installing the Base System with Linux/Linux Zen Kernel
 
 * `nano /etc/pacman.conf` - Uncomment the following:
 
@@ -103,6 +105,7 @@ Also, if you are using **Ext4**, then "`btrfs-progs`" is **not** needed.
 # Chrooting
 
 * `arch-chroot /mnt`
+> **NOTE:** Chroot environment is the environment running inside the root directory of the new system. It is the environment in which the installation actually takes place. Do not exit this environment until the installation is complete, or the system may not boot properly. Also, don't be confused if you see same commands again. It's because you are now in the new system.
 
 ## Network Configuration
 
@@ -149,7 +152,7 @@ Also, if you have Ext4 then "`grub-btrfs`" is not required.
 ## Installing a Bootloader (GRUB)
 
 * `grub-install --target=x86_64-efi --bootloader-id=archlinux --efi-directory=/boot/efi --recheck` - Installing GRUB
-> **NOTE:** If your UEFI Entry disappears on reboot due to the requirement of known location to bootable file before showing up UEFI NVRAM Boot 
+> **NOTE:** If your UEFI Entry disappears on reboot due to the requirement of known location to bootable file before showing up UEFI NVRAM Boot
 entries, just use "`--removable`" flag after the whole command.
 
 * `nano /etc/default/grub` - Uncomment the line at the end of file saying "`GRUB_DISABLE_OS_PROBER=false`"
