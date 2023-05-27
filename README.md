@@ -1,6 +1,7 @@
 # Arch Linux Installation Guide
 This guide covers everything you need to install a full fledged Arch Linux System with KDE Plasma Desktop Environment.
 
+![visitors](https://visitor-badge.laobi.icu/badge?page_id=Arkapravo-Ghosh.arch-linux-install-guide)
 # Initial Configuration
 
 ## Network Config for liveiso
@@ -302,9 +303,11 @@ Edit the value of `ZSH_THEME` to "`xiong-chiamiov`" like this:
 
 Edit the last line of the file to have the following:
 
-`source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh`\
-`source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh`\
-`source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh`
+```
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+```
 
 Save and Exit
 
