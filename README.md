@@ -28,6 +28,7 @@ This guide covers everything you need to install a full fledged Arch Linux Syste
 3. Remaining Size (Preferably 140.3G) Linux Filesystem (`<root>`)\
 <br>
 then write and quit
+
 * `fdisk -l` - Check the partition numbers properly.
 * `mkfs.fat -F 32 /dev/<efi>` - Format the EFI Filesystem in Fat32
 * `mkswap /dev/<swap>` - Format the Swap Filesystem
