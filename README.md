@@ -218,7 +218,6 @@ Target=nvidia-dkms
 Target=nvidia-lts
 Target=linux
 Target=linux-zen
-# Change the linux part above and in the Exec line if a different kernel is used
 
 [Action]
 Description=Update NVIDIA module in initcpio
@@ -227,6 +226,8 @@ When=PostTransaction
 NeedsTargets
 Exec=/bin/sh -c 'while read -r trg; do case $trg in linux) exit 0; esac; done; /usr/bin/mkinitcpio -P'
 ```
+> **NOTE:** If you have installed **Linux Zen** Kernel, then replace "`linux`" with "`linux-zen`" in the last line.
+
 Save (Ctrl + S) and Exit (Ctrl + X)
 
 * `yay -S nvidia-dkms nvidia-utils lib32-nvidia-utils opencl-nvidia lib32-opencl-nvidia nvidia-settings` - Installing NVIDIA Drivers
