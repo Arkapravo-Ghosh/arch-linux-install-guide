@@ -25,9 +25,7 @@ This guide covers everything you need to install a full fledged Arch Linux Syste
 * `cfdisk /dev/<device>` - Make 3 partitions:
 1. 512M EFI System Partition (`<efi>`)
 2. 8.8G Linux Swap Partition (`<swap>`)
-3. Remaining Size (Preferably 140.3G) Linux Filesystem (`<root>`)\
-<br>
-then write and quit
+3. Remaining Size (Preferably 140.3G) Linux Filesystem (`<root>`)<br><br>then write and quit
 
 * `fdisk -l` - Check the partition numbers properly.
 * `mkfs.fat -F 32 /dev/<efi>` - Format the EFI Filesystem in Fat32
