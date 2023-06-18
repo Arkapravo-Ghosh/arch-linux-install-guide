@@ -94,7 +94,7 @@ This guide covers everything you need to install a full fledged Arch Linux Syste
 `[multilib]`\
 `Include = /etc/pacman.d/mirrorlist`
 
-then save and exit
+then save (Ctrl + S) and exit (Ctrl + X)
 
 * `pacstrap /mnt base linux linux-firmware vim nano btrfs-progs` - Select the default.
 > **NOTE:** If you want **Linux Zen** Kernel, replace "`linux`" with "`linux-zen`".\
@@ -109,7 +109,7 @@ Also, if you are using **Ext4**, then "`btrfs-progs`" is **not** needed.
 
 ## Network Configuration
 
-* `nano /etc/hostname` - Write your hostname here and remember it (`<hostname>`), save and exit
+* `nano /etc/hostname` - Write your hostname here and remember it (`<hostname>`), save (Ctrl + S) and exit (Ctrl + X)
 * `nano /etc/hosts` - Write the following in it:
 ```
 127.0.0.1   localhost
@@ -134,7 +134,7 @@ Also, if you are using **Ext4**, then "`btrfs-progs`" is **not** needed.
 `[multilib]`\
 `Include = /etc/pacman.d/mirrorlist`
 
-then save and exit
+then save (Ctrl + S) and exit (Ctrl + X)
 
 * `pacman -Syy sudo linux-headers efibootmgr grub intel-ucode git base-devel grub-btrfs dkms avahi os-prober`
 > **NOTE:** If you have an **AMD Processor** instead, replace "`intel-ucode`" with "`amd-ucode`"\
@@ -147,7 +147,7 @@ Also, if you have Ext4 then "`grub-btrfs`" is not required.
 * `useradd -m <username>` - Enter your new username (`<username>`)
 * `usermod -aG wheel <username>` - Add user to wheel group for sudo permissions
 * `passwd <username>` - Enter new password for your new user
-* `EDITOR=nano visudo` - At the bottom of the file, uncomment the line "`%wheel ALL=(ALL:ALL) ALL`", save and exit
+* `EDITOR=nano visudo` - At the bottom of the file, uncomment the line "`%wheel ALL=(ALL:ALL) ALL`", save (Ctrl + S) and exit (Ctrl + X)
 
 ## Installing a Bootloader (GRUB)
 
@@ -192,7 +192,7 @@ Find MAKEFLAGS, uncomment it and edit the numerical value to the number of CPU t
 
 `MAKEFLAGS="-j16"`
 
-Save and Exit
+Save (Ctrl + S) and Exit (Ctrl + X)
 
 * `sudo nano /etc/bash.bashrc` - If you use zsh, then replace the path with "`/etc/zsh/zshrc`"
 
@@ -200,8 +200,44 @@ Put this in the last line of the file:
 
 `export PATH="/usr/lib/ccache/bin/:$PATH"`
 
-Save and Exit
+Save (Ctrl + S) and Exit (Ctrl + X)
 Close the terminal and reopen to apply changes.
+</details>
+
+## Installing NVIDIA Drivers
+
+* `sudo nano /etc/pacman.d/hooks/nvidia.hook` - Create a new file and put the following in it:
+```ini
+[Trigger]
+Operation=Install
+Operation=Upgrade
+Operation=Remove
+Type=Package
+Target=nvidia
+Target=nvidia-dkms
+Target=nvidia-lts
+Target=linux
+Target=linux-zen
+# Change the linux part above and in the Exec line if a different kernel is used
+
+[Action]
+Description=Update NVIDIA module in initcpio
+Depends=mkinitcpio
+When=PostTransaction
+NeedsTargets
+Exec=/bin/sh -c 'while read -r trg; do case $trg in linux) exit 0; esac; done; /usr/bin/mkinitcpio -P'
+```
+Save (Ctrl + S) and Exit (Ctrl + X)
+
+* `yay -S nvidia-dkms nvidia-utils lib32-nvidia-utils opencl-nvidia lib32-opencl-nvidia nvidia-settings` - Installing NVIDIA Drivers
+> **NOTE:** Some **Laptops** come with NVIDIA Optimus Technology by which the NVIDIA GPU is used only when needed, otherwise an Integrated Intel/AMD GPU is used. If you have such a laptop, then expand and follow the Optimus section below. This is usually **not required for Desktops**.
+<details>
+    <summary>Optional: NVIDIA Optimus</summary>
+
+* `yay -S nvidia-prime` - Installing NVIDIA Optimus
+
+This package comes with a script called prime-run which can be used to run any application with NVIDIA GPU. For example, to run Steam with NVIDIA GPU, do this:
+* `prime-run steam`
 </details>
 
 ## Installing FlatPak
@@ -236,7 +272,7 @@ Edit **HOOKS** to have "`plymouth`" after "`base`" and "`udev`" and **MODULES** 
 
 > **NOTE:** For **Laptops** having a **dGPU** and an **iGPU**, consider using **iGPU** in this part, i.e., usually Intel GPU or AMD GPU.
 
-Save and Exit
+Save (Ctrl + S) and Exit (Ctrl + X)
 
 ### Regenerate Initramfs
 
@@ -250,7 +286,7 @@ Edit `GRUB_CMDLINE_LINUX_DEFAULT` to have "`splash`" after "`quiet`" like this:
 
 `GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"`
 
-Save and Exit
+Save (Ctrl + S) and Exit (Ctrl + X)
 
 ### Regenerate GRUB Configuration
 
@@ -298,7 +334,7 @@ source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 ```
 
-Save and Exit
+Save (Ctrl + S) and Exit (Ctrl + X)
 
 * `reboot` - Reboot to complete installation
 
@@ -348,6 +384,6 @@ polkit.addRule(function(action, subject) {
         }
 });
 ```
-Save and Exit
+Save (Ctrl + S) and Exit (Ctrl + X)
 
 * `reboot` - Reboot to apply changes
