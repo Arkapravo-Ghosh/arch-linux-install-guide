@@ -372,19 +372,19 @@ Add the following in this file:
 
 ```
 polkit.addRule(function(action, subject) {
-        if (((action.id == "org.freedesktop.udisks2.filesystem-fstab") ||
-            (action.id == "org.freedesktop.udisks2.filesystem-fstab")) &&
-            subject.local && subject.active) {
-            return polkit.Result.YES;
-        }
+    if (((action.id == "org.freedesktop.udisks2.filesystem-fstab") ||
+        (action.id == "org.freedesktop.udisks2.filesystem-fstab")) &&
+        subject.local && subject.active) {
+        return polkit.Result.YES;
+    }
 });
 
 polkit.addRule(function(action, subject) {
-        if (((action.id == "org.freedesktop.udisks2.filesystem-mount-system") ||
-            (action.id == "org.freedesktop.udisks2.filesystem-mount-system")) &&
-            subject.local && subject.active) {
-            return polkit.Result.YES;
-        }
+    if (((action.id == "org.freedesktop.udisks2.filesystem-mount-system") ||
+        (action.id == "org.freedesktop.udisks2.filesystem-mount-system")) &&
+        subject.local && subject.active) {
+        return polkit.Result.YES;
+    }
 });
 ```
 Save (Ctrl + S) and Exit (Ctrl + X)
