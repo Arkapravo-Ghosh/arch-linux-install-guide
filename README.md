@@ -236,7 +236,9 @@ Save (Ctrl + S) and Exit (Ctrl + X)
 
 * `yay -S nvidia-prime` - Installing NVIDIA Optimus
 
-This package comes with a script called prime-run which can be used to run any application with NVIDIA GPU. For example, to run Steam with NVIDIA GPU, do this:
+This package comes with a script called prime-run which can be used to run any application with NVIDIA GPU.
+
+For **example**, to run Steam with NVIDIA GPU, do this:
 * `prime-run steam`
 </details>
 
