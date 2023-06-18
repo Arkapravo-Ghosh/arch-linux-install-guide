@@ -162,19 +162,14 @@ entries, just use "`--removable`" flag after the whole command.
 
 ## Installing a Desktop Environment (KDE Plasma)
 
-* `pacman -S plasma plasma-wayland-session kde-applications sddm noto-fonts-emoji packagekit-qt5 gnome-keyring` - Read carefully and select the options\
-Go for `pipewire`, `pipewire-media-session`, `vlc`, `pyqt5`, `cronie` or `all` in the options, then wait till installation
+* `pacman -S plasma plasma-wayland-session kde-applications sddm gnu-free-fonts noto-fonts noto-fonts-emoji packagekit-qt5 gnome-keyring cronie pipewire-media-session pipewire-jack phonon-qt5-vlc` - Read carefully and select the options\
+Go for `all` in the options, then wait till installation
+* `pacman -R colord colord-kde` - Fixes screen color issues
 * `systemctl enable NetworkManager sddm avahi-daemon` - Enabling KDE's NetworkManager, Display Manager and Avahi Daemon
 * `exit` - Exiting Chroot
 * `reboot now` - Rebooting to Installed Arch Linux. Do not forget to change DE to **Plasma (X11)**.
 
 # Post Install Configuration
-
-## Fix Audio when using PipeWire
-
-* `sudo systemctl --global mask wireplumber`
-* `reboot`
-> **NOTE:** In case of any issues, just run "`sudo systemctl --global unmask wireplumber`" and `reboot`. to undo changes.
 
 ## Installing an AUR Helper (YAY)
 
@@ -262,11 +257,6 @@ Save and Exit
 
 * `yay -S update-grub`
 * `sudo update-grub`
-
-### Enable SDDM Plymouth
-
-* `sudo systemctl disable sddm`
-* `sudo systemctl enable sddm-plymouth`
 
 ### Install a Plymouth Theme
 
