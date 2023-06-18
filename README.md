@@ -1,4 +1,5 @@
 # Arch Linux Installation Guide
+
 This guide covers everything you need to install a full fledged Arch Linux System with KDE Plasma Desktop Environment.
 
 ![visitors](https://visitor-badge.laobi.icu/badge?page_id=Arkapravo-Ghosh.arch-linux-install-guide)
@@ -15,6 +16,7 @@ This guide covers everything you need to install a full fledged Arch Linux Syste
 * `ping -c 3 archlinux.org` - Check if DNS is working
 
 ## Timezone Config for liveiso
+
 * `timedatectl set-timezone <Region/City>` - Put your timezone here (Asia/Kolkata)
 * `timedatectl set-ntp true` - Enable Network Time Sync
 * `timedatectl set-local-rtc true` - Sync local time with hardware clock
