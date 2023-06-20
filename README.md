@@ -153,7 +153,7 @@ Also, if you have Ext4 then "`grub-btrfs`" is not required.
 
 ## Installing a Bootloader (GRUB)
 
-* `grub-install --target=x86_64-efi --bootloader-id=archlinux --efi-directory=/boot/efi --recheck` - Installing GRUB
+* `grub-install --target=x86_64-efi --bootloader-id="Arch Linux" --efi-directory=/boot/efi --recheck` - Installing GRUB
 > **NOTE:** If your UEFI Entry disappears on reboot due to the requirement of known location to bootable file before showing up UEFI NVRAM Boot
 entries, just use "`--removable`" flag after the whole command.
 
