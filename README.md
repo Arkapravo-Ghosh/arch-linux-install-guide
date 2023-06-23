@@ -3,15 +3,28 @@
 This guide covers everything you need to install a full fledged Arch Linux System with KDE Plasma Desktop Environment.
 
 ![visitors](https://visitor-badge.laobi.icu/badge?page_id=Arkapravo-Ghosh.arch-linux-install-guide)
+
 # Initial Configuration
 
 ## Network Config for liveiso
 
-* `systemctl start iwd dhcpcd` - Starts IW Daemon and DHCP Client Daemon
-* `iwconfig` - Use this to Check Wi-Fi Interface Name (wlan0/wlo1/wlp2s0)
-* `iwctl station <interface> scan` - Scan SSIDs
-* `iwctl station <interface> get-networks` - Check SSID for your preferable network
-* `iwctl station <interface> connect "<ssid>"` - Enter password after hitting enter
+<details>
+    <summary>Connect using Wi-Fi</summary>
+
+* `systemctl start iwd` - Starts IW Daemon
+* `systemctl start dhcpcd` - Starts DHCP Client Daemon
+* `ifconfig` - Check Wi-Fi Interface Name (wlan0/wlo1/wlp2s0)
+* `station <interface> scan` - Check SSID of your preferable network
+* `station <interface> connect "<ssid>"` - Enter password after hitting enter
+</details>
+<details>
+    <summary>Connect using USB Tethering</summary>
+
+* Connect your phone with your PC using USB Cable
+* Enable USB Tethering in your phone from Settings
+</details>
+
+### Check Connection
 * `ping -c 3 1.1.1.1` - Check if DHCP is working
 * `ping -c 3 archlinux.org` - Check if DNS is working
 
@@ -86,6 +99,7 @@ This guide covers everything you need to install a full fledged Arch Linux Syste
 * `mount /dev/<efi> /mnt/boot/efi` - Mount the EFI Partition
 * `swapon /dev/<swap>` - Using the Swap Partition
 
+
 # Installing the Base System with Linux/Linux Zen Kernel
 
 * `nano /etc/pacman.conf` - Uncomment the following:
@@ -146,7 +160,7 @@ Also, if you have Ext4 then "`grub-btrfs`" is not required.
 ## Adding a sudo user
 
 * `passwd` - Enter new password for root
-* `useradd -m <username>` - Enter your new username (`<username>`)
+* `useradd -s /bin/bash -m <username>` - Enter your new username (`<username>`)
 * `usermod -aG wheel <username>` - Add user to wheel group for sudo permissions
 * `passwd <username>` - Enter new password for your new user
 * `EDITOR=nano visudo` - At the bottom of the file, uncomment the line "`%wheel ALL=(ALL:ALL) ALL`", save (Ctrl + S) and exit (Ctrl + X)
@@ -161,7 +175,9 @@ entries, just use "`--removable`" flag after the whole command.
 * `mkinitcpio -P` - Generating Initramfs
 * `grub-mkconfig -o /boot/grub/grub.cfg` - Generating GRUB Configuration file
 
-## Installing a Desktop Environment (KDE Plasma)
+## Installing a Desktop Environment or Window Manager
+<details>
+    <summary>Installing KDE Plasma</summary>
 
 * `pacman -S plasma plasma-wayland-session kde-applications sddm gnu-free-fonts noto-fonts noto-fonts-emoji packagekit-qt5 gnome-keyring cronie pipewire-media-session pipewire-jack phonon-qt5-vlc` - Read carefully and select the options\
 Go for `all` in the options, then wait till installation
@@ -169,6 +185,54 @@ Go for `all` in the options, then wait till installation
 * `systemctl enable NetworkManager sddm avahi-daemon` - Enabling KDE's NetworkManager, Display Manager and Avahi Daemon
 * `exit` - Exiting Chroot
 * `reboot now` - Rebooting to Installed Arch Linux. Do not forget to change DE to **Plasma (X11)**.
+</details>
+
+<details>
+    <summary>Installing i3wm</summary>
+
+* `su - <username>` - Login to your user account
+* `sudo pacman -S xorg xorg-xinit i3-wm i3lock i3status i3blocks dmenu alacritty networkmanager` - Read carefully and select the options\
+Go for `all` in the options, then wait till installation
+* `sudo cp /etc/x11/xinit/xinitrc ~/.xinitrc`
+* `sudo nano ~/.xinitrc` - Do as instructed below:
+    1. Remove the part at the end of file saying:
+        ```bash
+        tun &
+        xclock geometry 50x50-1+1 &
+        xtern geometry 80x50+494+51 &
+        xtern geometry 80x20+494-0 &
+        exec xtern geometry 80x66+0+0 -nane login.
+        ```
+    2. Write the following in it:
+        ```bash
+        exec i3
+        ```
+    Save (Ctrl + S) and Exit (Ctrl + X)
+* `exit` - Exiting User Account
+* `exit` - Exiting Chroot
+* `reboot now` - Rebooting to Installed Arch Linux
+* Login to tty1 with the username and password you chose
+* `startx` - This will initiate the i3wm. It would look something like the image given below
+<div align=center>
+    <img src="images/init.png" />
+</div>
+
+* A Dialog box like the one given below should appear
+<div align=center>
+    <img src="images/i3-first-configuration.jpg" />
+</div>
+
+Press Enter to Create a Configuration File for i3wm which we will Edit later on
+* Another Dialog box like the one given below should appear asking you to select the Modifier Key. Select the key you want to use as the modifier key and press Enter.
+<div align=center>
+    <img src="images/Set-i3-Modifier-key.png" />
+</div>
+
+> **NOTE:** If you are using an Apple keyboard, the Win key will be the Command key
+* In order to open a terminal press `mod key + Enter`.
+* In order to open **dmenu** hit `mod key + d`.
+> **NOTE:** The mod key is the key which you have selected earlier in the modifier key dialog box before.
+</details>
 
 # Post Install Configuration
 
