@@ -234,6 +234,8 @@ Press Enter to Create a Configuration File for i3wm which we will Edit later on
 > **NOTE:** The mod key is the key which you have selected earlier in the modifier key dialog box before.
 </details>
 
+> **NOTE:** If you are a **Beginner**, then it is Recommended to Install **KDE Plasma** as it is a full-fledged Desktop Environment with Lots of Features and Applications. i3wm is a Window Manager which is Very Minimal and requires a Lot of Configuration to be done manually. If you are new to Window Managers, then try it in a Virtual Machine first.
+
 # Post Install Configuration
 
 ## Installing an AUR Helper (YAY)
