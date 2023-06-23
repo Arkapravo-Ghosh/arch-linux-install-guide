@@ -160,7 +160,7 @@ Also, if you have Ext4 then "`grub-btrfs`" is not required.
 ## Adding a sudo user
 
 * `passwd` - Enter new password for root
-* `useradd -m <username>` - Enter your new username (`<username>`)
+* `useradd -s /bin/bash -m <username>` - Enter your new username (`<username>`)
 * `usermod -aG wheel <username>` - Add user to wheel group for sudo permissions
 * `passwd <username>` - Enter new password for your new user
 * `EDITOR=nano visudo` - At the bottom of the file, uncomment the line "`%wheel ALL=(ALL:ALL) ALL`", save (Ctrl + S) and exit (Ctrl + X)
@@ -190,12 +190,13 @@ Go for `all` in the options, then wait till installation
 <details>
     <summary>Installing i3wm</summary>
 
+* `su - <username>` - Login to your user account
 * `sudo pacman -S xorg xorg-xinit i3-wm i3lock i3status i3blocks dmenu alacritty networkmanager` - Read carefully and select the options\
 Go for `all` in the options, then wait till installation
 * `sudo cp /etc/x11/xinit/xinitrc ~/.xinitrc`
 * `sudo nano ~/.xinitrc` - Do as instructed below:
     1. Remove the part at the end of file saying:
-        ```
+        ```bash
         tun &
         xclock geometry 50x50-1+1 &
         xtern geometry 80x50+494+51 &
@@ -203,22 +204,31 @@ Go for `all` in the options, then wait till installation
         exec xtern geometry 80x66+0+0 -nane login.
         ```
     2. Write the following in it:
-        ```
+        ```bash
         exec i3
         ```
-* Then save and exit
+    Save (Ctrl + S) and Exit (Ctrl + X)
+* `exit` - Exiting User Account
 * `exit` - Exiting Chroot
-* `reboot now` - Rebooting to Installed Arch Linux remove the installation medium.
-* Login to tty1 with the user name and password you chose.
-* `startx` - This will initiate the i3wm. It would look something like the image given below.<br>
-    ![Example Image](images/init.png)
-* Now read the dialog box given below,<br>
-    ![Example Image](images/i3-first-configuration.jpg)<br>
-    Click enter to create a configuration file for i3 which we will edit latter on.
-* Select the modifire key in the dialog box givn below,<br>
-    ![Example Image](images/Set-i3-Modifier-key.png)<br>
-    and press enter.
-    > **NOTE:** If you are using an apple keyboard, it will be the `command key`<br> and If you are using a windows keyboard, it will be the `windows key`.
+* `reboot now` - Rebooting to Installed Arch Linux
+* Login to tty1 with the username and password you chose
+* `startx` - This will initiate the i3wm. It would look something like the image given below
+<div align=center>
+    <img src="images/init.png" />
+</div>
+
+* A Dialog box like the one given below should appear
+<div align=center>
+    <img src="images/i3-first-configuration.jpg" />
+</div>
+
+Press Enter to Create a Configuration File for i3wm which we will Edit later on
+* Another Dialog box like the one given below should appear asking you to select the Modifier Key. Select the key you want to use as the modifier key and press Enter.
+<div align=center>
+    <img src="images/Set-i3-Modifier-key.png" />
+</div>
+
+> **NOTE:** If you are using an Apple keyboard, the Win key will be the Command key
 * In order to open a terminal press `mod key + Enter`.
 * In order to open **dmenu** hit `mod key + d`.
 > **NOTE:** The mod key is the key which you have selected earlier in the modifier key dialog box before.
