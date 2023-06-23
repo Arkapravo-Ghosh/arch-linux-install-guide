@@ -85,7 +85,6 @@ This guide covers everything you need to install a full fledged Arch Linux Syste
 * `mount -o noatime,commit=120,compress=zstd,space_cache=v2,subvol=@.snapshots /dev/<root> /mnt/.snapshots`
 * `mount -o subvol=@var /dev/<root> /mnt/var`
 </details>
-
 <details>
     <summary>OR, EXT4 as root</summary>
 
