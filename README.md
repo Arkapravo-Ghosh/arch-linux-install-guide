@@ -6,20 +6,28 @@ This guide covers everything you need to install a full fledged Arch Linux Syste
 # Initial Configuration
 
 ## Network Config for liveiso
+### connect using wifi
+* `systemctl start iwd` - Starts IW Daemon
+* `systemctl start dhcpcd` - Starts DHCP Client Daemon
+* `ifconfig` - Check Wi-Fi Interface Name (wlan0/wlo1/wlp2s0)
+* `station <interface> scan` - Check SSID of your preferable network
+* `station <interface> connect "<ssid>"` - Enter password after hitting enter
 
-* `systemctl start iwd dhcpcd` - Starts IW Daemon and DHCP Client Daemon
-* `iwconfig` - Use this to Check Wi-Fi Interface Name (wlan0/wlo1/wlp2s0)
-* `iwctl station <interface> scan` - Scan SSIDs
-* `iwctl station <interface> get-networks` - Check SSID for your preferable network
-* `iwctl station <interface> connect "<ssid>"` - Enter password after hitting enter
-* `ping -c 3 1.1.1.1` - Check if DHCP is working
-* `ping -c 3 archlinux.org` - Check if DNS is working
+### connect using your phone 
+* connect your phone with your laptop/pc using otg
+* actuvate **SHARE NETWORK VIA USB**
+
+### check if connected
+* `ping 1.1.1.1` - Check if DHCP is working
+* `ping archlinux.org` - Check if DNS is working
+
 
 ## Timezone Config for liveiso
 
 * `timedatectl set-timezone <Region/City>` - Put your timezone here (Asia/Kolkata)
 * `timedatectl set-ntp true` - Enable Network Time Sync
 * `timedatectl set-local-rtc true` - Sync local time with hardware clock
+
 
 ## Partitioning Filesystem
 
@@ -32,6 +40,7 @@ This guide covers everything you need to install a full fledged Arch Linux Syste
 * `fdisk -l` - Check the partition numbers properly.
 * `mkfs.fat -F 32 /dev/<efi>` - Format the EFI Filesystem in Fat32
 * `mkswap /dev/<swap>` - Format the Swap Filesystem
+
 
 ## Mounting Filesystem
 
@@ -86,6 +95,7 @@ This guide covers everything you need to install a full fledged Arch Linux Syste
 * `mount /dev/<efi> /mnt/boot/efi` - Mount the EFI Partition
 * `swapon /dev/<swap>` - Using the Swap Partition
 
+
 # Installing the Base System with Linux/Linux Zen Kernel
 
 * `nano /etc/pacman.conf` - Uncomment the following:
@@ -104,10 +114,12 @@ then save (Ctrl + S) and exit (Ctrl + X)
 Also, if you are using **Ext4**, then "`btrfs-progs`" is **not** needed.
 * `genfstab -U /mnt >> /mnt/etc/fstab` - Generating fstab configuration
 
+
 # Chrooting
 
 * `arch-chroot /mnt`
 > **NOTE:** Chroot environment is the environment running inside the root directory of the new system. It is the environment in which the installation actually takes place. Do not exit this environment until the installation is complete, or the system may not boot properly. Also, don't be confused if you see same commands again. It's because you are now in the new system.
+
 
 ## Network Configuration
 
@@ -119,12 +131,14 @@ Also, if you are using **Ext4**, then "`btrfs-progs`" is **not** needed.
 127.0.1.1   <hostname>
 ```
 
+
 ## Locale Configuration
 
 * `nano /etc/locale.gen` - Uncomment your locale here (en_US.UTF-8)
 * `locale-gen` - Generates your locales based on "`/etc/locale.gen`"
 * `nano /etc/locale.conf` - Type here "`LANG=en_US.UTF-8`" (or whatever locale you chose)
 * `export LANG=en_US.UTF-8` - If you chose another locale, type accordingly
+
 
 ## Installing necessary packages
 
@@ -143,6 +157,7 @@ then save (Ctrl + S) and exit (Ctrl + X)
 If you have installed "`linux-zen`" in the previous pacstrap command, then replace "`linux-headers`" with "`linux-zen-headers`"\
 Also, if you have Ext4 then "`grub-btrfs`" is not required.
 
+
 ## Adding a sudo user
 
 * `passwd` - Enter new password for root
@@ -150,6 +165,7 @@ Also, if you have Ext4 then "`grub-btrfs`" is not required.
 * `usermod -aG wheel <username>` - Add user to wheel group for sudo permissions
 * `passwd <username>` - Enter new password for your new user
 * `EDITOR=nano visudo` - At the bottom of the file, uncomment the line "`%wheel ALL=(ALL:ALL) ALL`", save (Ctrl + S) and exit (Ctrl + X)
+
 
 ## Installing a Bootloader (GRUB)
 
@@ -161,7 +177,10 @@ entries, just use "`--removable`" flag after the whole command.
 * `mkinitcpio -P` - Generating Initramfs
 * `grub-mkconfig -o /boot/grub/grub.cfg` - Generating GRUB Configuration file
 
-## Installing a Desktop Environment (KDE Plasma)
+
+## Installing a Desktop Environment or Window Manager
+<details>
+    <summary>Installing KDE Plasma</summary>
 
 * `pacman -S plasma plasma-wayland-session kde-applications sddm gnu-free-fonts noto-fonts noto-fonts-emoji packagekit-qt5 gnome-keyring cronie pipewire-media-session pipewire-jack phonon-qt5-vlc` - Read carefully and select the options\
 Go for `all` in the options, then wait till installation
@@ -169,6 +188,47 @@ Go for `all` in the options, then wait till installation
 * `systemctl enable NetworkManager sddm avahi-daemon` - Enabling KDE's NetworkManager, Display Manager and Avahi Daemon
 * `exit` - Exiting Chroot
 * `reboot now` - Rebooting to Installed Arch Linux. Do not forget to change DE to **Plasma (X11)**.
+</details>
+
+<details>
+    <summary>Installing i3wm</summary>
+
+* `sudo pacman -S xorg xorg-xinit i3-wm i3lock i3status i3blocks dmenu alacritty networkmanager` - Read carefully and select the options\
+Go for `all` in the options, then wait till installation
+* `sudo cp /etc/x11/xinit/xinitrc ~/.xinitrc`
+* `sudo nano .xinitrc` - Do as instructed below:
+    1. Remove the part at the end of file saying:
+        ```
+        tun &
+        xclock geometry 50x50-1+1 &
+        xtern geometry 80x50+494+51 &
+        xtern geometry 80x20+494-0 &
+        exec xtern geometry 80x66+0+0 -nane login.
+        ```
+    2. Write the following in it:
+        ```
+        exec i3
+        ```
+* Then save and exit
+* `exit` - Exiting Chroot
+* `reboot now` - Rebooting to Installed Arch Linux remove the installation medium.
+* Login to tty1 with the user name and password you chose.
+* `startx` - This will initiate the i3wm. It would look something like the image given below.<br>
+    ![Example Image](https://github.com/SrijanBhattacharyya/Arch-Linux-i3wm-setup-guide/blob/main/img/init.png)
+* Now read the dialog box given below,<br>
+    ![Example Image](https://github.com/SrijanBhattacharyya/Arch-Linux-i3wm-setup-guide/blob/main/img/i3-first-configuration.jpg)<br>
+    Click enter to create a configuration file for i3 which we will edit latter on.
+* Select the modifire key in the dialog box givn below,<br>
+    ![Example Image](https://github.com/SrijanBhattacharyya/Arch-Linux-i3wm-setup-guide/blob/main/img/Set-i3-Modifier-key.png)<br>
+    and press enter.
+    > **NOTE:** If you are using an apple keyboard, it will be the `command key`<br> and If you are using a windows keyboard, it will be the `windows key`.
+* In order to open a terminal press `mod key + Enter`.
+* In order to open **dmenu** hit `mod key + d`.
+> **NOTE:** The mod key is the key which you have selected earlier in the modifire key dialog box before.
+* **For farther configuration, follow the link given below.**<br>
+    Link: https://github.com/SrijanBhattacharyya/Arch-Linux-i3wm-setup-guide
+</details>
+
 
 # Post Install Configuration
 
@@ -245,6 +305,7 @@ For **example**, to run Steam with NVIDIA GPU, do this:
 * `prime-run steam`
 </details>
 
+
 ## Installing FlatPak
 
 * `sudo pacman -S flatpak`
@@ -260,9 +321,11 @@ For **example**, to run Steam with NVIDIA GPU, do this:
 * `reboot` - Reboot to complete installation
 </details>
 
+
 ## Installing Plymouth
 
 * `yay -S plymouth-git`
+
 
 ### Configure Initramfs
 
@@ -279,9 +342,11 @@ Edit **HOOKS** to have "`plymouth`" after "`base`" and "`udev`" and **MODULES** 
 
 Save (Ctrl + S) and Exit (Ctrl + X)
 
+
 ### Regenerate Initramfs
 
 * `sudo mkinitcpio -P`
+
 
 ### Configure GRUB
 
@@ -293,16 +358,19 @@ Edit `GRUB_CMDLINE_LINUX_DEFAULT` to have "`splash`" after "`quiet`" like this:
 
 Save (Ctrl + S) and Exit (Ctrl + X)
 
+
 ### Regenerate GRUB Configuration
 
 * `yay -S update-grub`
 * `sudo update-grub`
+
 
 ### Install a Plymouth Theme
 
 * `yay -S plymouth-theme-arch-breeze-git`
 * `sudo plymouth-set-default-theme -R arch-breeze`
 * `reboot` - Reboot to complete installation
+
 
 ## Install a better GRUB Theme (Xenlism GRUB Theme)
 
@@ -312,9 +380,11 @@ Save (Ctrl + S) and Exit (Ctrl + X)
 * `sudo ./install.sh`
 * `reboot now` - Reboot to complete installation
 
+
 ## Install Missing Kernel Headers
 
 * `yay -S mkinitcpio-firmware`
+
 
 ## Install better shell (Oh-My-Zsh)
 
@@ -343,6 +413,7 @@ Save (Ctrl + S) and Exit (Ctrl + X)
 
 * `reboot` - Reboot to complete installation
 
+
 ## Install Google Chrome and Microsoft Edge Web Browser
 
 * `yay -S google-chrome microsoft-edge-stable-bin`
@@ -353,6 +424,7 @@ Edit the application launcher to have the following as the command:
 
 `/usr/bin/google-chrome-stable --enable-features=WebUIDarkMode --force-dark-mode %U`
 </details>
+
 
 ## Configure Automatic System Backup
 
