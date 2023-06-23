@@ -99,7 +99,6 @@ This guide covers everything you need to install a full fledged Arch Linux Syste
 * `mount /dev/<efi> /mnt/boot/efi` - Mount the EFI Partition
 * `swapon /dev/<swap>` - Using the Swap Partition
 
-
 # Installing the Base System with Linux/Linux Zen Kernel
 
 * `nano /etc/pacman.conf` - Uncomment the following:
