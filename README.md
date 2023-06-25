@@ -326,7 +326,7 @@ For **example**, to run Steam with NVIDIA GPU, do this:
 
 ## Installing Plymouth
 
-* `yay -S plymouth-git`
+* `sudo pacman -S plymouth`
 
 ### Configure Initramfs
 
@@ -366,6 +366,7 @@ Save (Ctrl + S) and Exit (Ctrl + X)
 
 * `yay -S plymouth-theme-arch-breeze-git`
 * `sudo plymouth-set-default-theme -R arch-breeze`
+> **NOTE**: To list all available themes, run `plymouth-set-default-theme -l`
 * `reboot` - Reboot to complete installation
 
 ## Install a better GRUB Theme (Xenlism GRUB Theme)
