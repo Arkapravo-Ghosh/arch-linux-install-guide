@@ -14,8 +14,7 @@ This guide covers everything you need to install a full fledged Arch Linux Syste
 * `systemctl start iwd` - Starts IW Daemon
 * `systemctl start dhcpcd` - Starts DHCP Client Daemon
 * `ifconfig` - Check Wi-Fi Interface Name (wlan0/wlo1/wlp2s0)
-* `station <interface> scan` - Check SSID of your preferable network
-* `station <interface> connect "<ssid>"` - Enter password after hitting enter
+* `iwctl station <interface> connect "<ssid>"` - Enter password after hitting enter
 </details>
 <details>
     <summary>Connect using USB Tethering</summary>
