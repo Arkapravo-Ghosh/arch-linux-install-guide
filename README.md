@@ -176,7 +176,7 @@ entries, just use "`--removable`" flag after the whole command.
 <details>
     <summary>Installing KDE Plasma</summary>
 
-* `pacman -S plasma plasma-wayland-session kde-applications sddm gnu-free-fonts noto-fonts noto-fonts-emoji packagekit-qt5 gnome-keyring cronie pipewire-media-session pipewire-jack phonon-qt5-vlc` - Read carefully and select the options\
+* `pacman -S plasma plasma-wayland-session kde-applications sddm gnu-free-fonts noto-fonts noto-fonts-emoji packagekit-qt5 gnome-keyring cronie pipewire-media-session pipewire-jack phonon-qt5-vlc python-pyqt5 xdg-desktop-portal-kde` - Read carefully and select the options\
 Go for `all` in the options, then wait till installation
 * `pacman -R colord colord-kde` - Fixes screen color issues
 * `systemctl enable NetworkManager sddm avahi-daemon` - Enabling KDE's NetworkManager, Display Manager and Avahi Daemon
