@@ -149,7 +149,7 @@ Also, if you are using **Ext4**, then "`btrfs-progs`" is **not** needed.
 
 then save (Ctrl + S) and exit (Ctrl + X)
 
-* `pacman -Syy sudo linux-headers efibootmgr grub intel-ucode git base-devel grub-btrfs dkms avahi os-prober`
+* `pacman -Syy sudo linux-headers efibootmgr grub intel-ucode git base-devel grub-btrfs dkms avahi os-prober ntfs-3g`
 > **NOTE:** If you have an **AMD Processor** instead, replace "`intel-ucode`" with "`amd-ucode`"\
 If you have installed "`linux-zen`" in the previous pacstrap command, then replace "`linux-headers`" with "`linux-zen-headers`"\
 Also, if you have Ext4 then "`grub-btrfs`" is not required.
