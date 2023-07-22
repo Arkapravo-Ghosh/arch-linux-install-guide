@@ -122,20 +122,17 @@ Also, if you are using **Ext4**, then "`btrfs-progs`" is **not** needed.
 
 ## Network Configuration
 
-* `nano /etc/hostname` - Write your hostname here and remember it (`<hostname>`), save (Ctrl + S) and exit (Ctrl + X)
-* `nano /etc/hosts` - Write the following in it:
-```
-127.0.0.1   localhost
-::1         localhost
-127.0.1.1   <hostname>
-```
+* `echo "<hostname>" > /etc/hostname` - Replace `<hostname>` with your hostname here
+* `echo 127.0.0.1$'\t'localhost >> /etc/hosts`
+* `echo ::1$'\t\t'localhost >> /etc/hosts`
+* `echo 127.0.1.1$'\t'$(cat /etc/hostname) >> /etc/hosts`
 
 ## Locale Configuration
 
 * `nano /etc/locale.gen` - Uncomment your locale here (en_US.UTF-8)
 * `locale-gen` - Generates your locales based on "`/etc/locale.gen`"
-* `nano /etc/locale.conf` - Type here "`LANG=en_US.UTF-8`" (or whatever locale you chose)
-* `export LANG=en_US.UTF-8` - If you chose another locale, type accordingly
+* `echo "LANG=en_US.UTF-8" > /etc/locale.conf`
+* `export $(cat /etc/locale.conf)`
 
 ## Installing necessary packages
 
@@ -149,16 +146,18 @@ Also, if you are using **Ext4**, then "`btrfs-progs`" is **not** needed.
 
 then save (Ctrl + S) and exit (Ctrl + X)
 
-* `pacman -Syy sudo linux-headers efibootmgr grub intel-ucode git base-devel grub-btrfs dkms avahi os-prober ntfs-3g`
+* `pacman -Syy sudo linux-headers efibootmgr grub intel-ucode git base-devel grub-btrfs dkms avahi os-prober ntfs-3g terminus-font`
 > **NOTE:** If you have an **AMD Processor** instead, replace "`intel-ucode`" with "`amd-ucode`"\
 If you have installed "`linux-zen`" in the previous pacstrap command, then replace "`linux-headers`" with "`linux-zen-headers`"\
 Also, if you have Ext4 then "`grub-btrfs`" is not required.
 
+## Adding Console Font
+* `echo "FONT=ter-112n" > /etc/vconsole.conf` - Adds Terminus Font to Console
+
 ## Adding a sudo user
 
 * `passwd` - Enter new password for root
-* `useradd -s /bin/bash -m <username>` - Enter your new username (`<username>`)
-* `usermod -aG wheel <username>` - Add user to wheel group for sudo permissions
+* `useradd -s /bin/bash -mG wheel <username>` - Enter your new username (`<username>`)
 * `passwd <username>` - Enter new password for your new user
 * `EDITOR=nano visudo` - At the bottom of the file, uncomment the line "`%wheel ALL=(ALL:ALL) ALL`", save (Ctrl + S) and exit (Ctrl + X)
 
@@ -239,7 +238,7 @@ Press Enter to Create a Configuration File for i3wm which we will Edit later on
 
 * `cd /opt`
 * `sudo git clone https://aur.archlinux.org/yay-git.git`
-* `sudo chown -R <username>:<username> ./yay-git`
+* `sudo chown -R $USER:$USER ./yay-git`
 * `cd yay-git`
 * `makepkg -si`
 
@@ -259,20 +258,29 @@ Find MAKEFLAGS, uncomment it and edit the numerical value to the number of CPU t
 
 Save (Ctrl + S) and Exit (Ctrl + X)
 
-* `sudo nano /etc/bash.bashrc` - If you use zsh, then replace the path with "`/etc/zsh/zshrc`"
+* Run the following command to add ccache to your PATH:
 
-Put this in the last line of the file:
+```bash
+cat >> /etc/bash.bashrc << EOF
+export PATH="/usr/lib/ccache/bin/:$PATH"
+EOF
+```
+<details>
+    <summary>Optional: For Zsh Users</summary>
 
-`export PATH="/usr/lib/ccache/bin/:$PATH"`
-
-Save (Ctrl + S) and Exit (Ctrl + X)
-Close the terminal and reopen to apply changes.
+```bash
+cat >> /etc/zsh/zshrc << EOF
+export PATH="/usr/lib/ccache/bin/:$PATH"
+EOF
+```
+</details>
 </details>
 
 ## Installing NVIDIA Drivers
 
-* `sudo nano /etc/pacman.d/hooks/nvidia.hook` - Create a new file and put the following in it:
-```ini
+* Run the following command to create a hook for NVIDIA Drivers:
+```bash
+cat > /etc/pacman.d/hooks/nvidia.hook << EOF
 [Trigger]
 Operation=Install
 Operation=Upgrade
@@ -290,6 +298,7 @@ Depends=mkinitcpio
 When=PostTransaction
 NeedsTargets
 Exec=/bin/sh -c 'while read -r trg; do case $trg in linux) exit 0; esac; done; /usr/bin/mkinitcpio -P'
+EOF
 ```
 > **NOTE:** If you have installed **Linux Zen** Kernel, then replace "`linux`" with "`linux-zen`" in the last line.
 
@@ -397,10 +406,12 @@ Edit the value of `ZSH_THEME` to "`xiong-chiamiov`" like this:
 
 Edit the last line of the file to have the following:
 
-```
+```bash
+cat >> ~/.zshrc << EOF
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+EOF
 ```
 
 Save (Ctrl + S) and Exit (Ctrl + X)
@@ -432,11 +443,10 @@ Open Timeshift from your app launcher and set **BTRFS Backup** to *Boot*, *Daily
 
 ## Allow udisks to mount disks without asking sudo password
 
-* `sudo nano /etc/polkit-1/rules.d/.rules`
+* Run the following command to create a rule for udisks:
 
-Add the following in this file:
-
-```
+```bash
+cat > /etc/polkit-1/rules.d/.rules << EOF
 polkit.addRule(function(action, subject) {
     if (((action.id == "org.freedesktop.udisks2.filesystem-fstab") ||
         (action.id == "org.freedesktop.udisks2.filesystem-fstab")) &&
@@ -452,6 +462,7 @@ polkit.addRule(function(action, subject) {
         return polkit.Result.YES;
     }
 });
+EOF
 ```
 Save (Ctrl + S) and Exit (Ctrl + X)
 
