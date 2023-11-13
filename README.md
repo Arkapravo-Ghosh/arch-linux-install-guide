@@ -404,7 +404,7 @@ Edit the value of `ZSH_THEME` to "`xiong-chiamiov`" like this:
 
 `ZSH_THEME="xiong-chiamiov"`
 
-Edit the last line of the file to have the following:
+Run the following command on your terminal:
 
 ```bash
 cat >> ~/.zshrc << EOF
