@@ -404,6 +404,8 @@ Edit the value of `ZSH_THEME` to "`xiong-chiamiov`" like this:
 
 `ZSH_THEME="xiong-chiamiov"`
 
+Save (Ctrl + S) and Exit (Ctrl + X)
+
 Run the following command on your terminal:
 
 ```bash
