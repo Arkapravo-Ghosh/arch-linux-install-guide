@@ -175,7 +175,7 @@ entries, just use "`--removable`" flag after the whole command.
 <details>
     <summary>Installing KDE Plasma</summary>
 
-* `pacman -S plasma plasma-wayland-session kde-applications sddm gnu-free-fonts noto-fonts noto-fonts-emoji packagekit-qt5 gnome-keyring cronie pipewire-media-session pipewire-jack phonon-qt5-vlc tesseract-data-ind python-pyqt5 xdg-desktop-portal-kde` - Read carefully and select the options\
+* `pacman -S plasma plasma-wayland-session kde-applications sddm gnu-free-fonts noto-fonts noto-fonts-emoji packagekit-qt5 gnome-keyring cronie pipewire-media-session pipewire-jack phonon-qt5-vlc tesseract-data-ind python-pyqt5 xdg-desktop-portal-kde` - Read carefully and select the options \
 Go for `all` in the options, then wait till installation
 * `pacman -R colord colord-kde` - Fixes screen color issues
 * `systemctl enable NetworkManager sddm avahi-daemon` - Enabling KDE's NetworkManager, Display Manager and Avahi Daemon
@@ -189,6 +189,7 @@ Go for `all` in the options, then wait till installation
 * `su - <username>` - Login to your user account
 * `sudo pacman -S xorg xorg-xinit i3-wm i3lock i3status i3blocks dmenu alacritty networkmanager` - Read carefully and select the options\
 Go for `all` in the options, then wait till installation
+* Also install a compositor like `picom` or `xcompmgr`. picom is recommended
 * `sudo cp /etc/x11/xinit/xinitrc ~/.xinitrc`
 * `sudo nano ~/.xinitrc` - Do as instructed below:
     1. Remove the part at the end of file saying:
@@ -201,14 +202,22 @@ Go for `all` in the options, then wait till installation
         ```
     2. Write the following in it:
         ```bash
+        picom &
         exec i3
         ```
+        > replace `picom` with whatever you installed instead.
     Save (Ctrl + S) and Exit (Ctrl + X)
+    2. To start Xorg server and i3 every time you login, put the following into your login shell initialization file (like `~/.bash_profile` or `.zprofile`)
+        ```bash
+        if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
+            exec startx
+        fi
+        ```
+        I highly suggest also visiting [this](https://wiki.archlinux.org/title/Xinit) article. it may help you further tweak your installation.
 * `exit` - Exiting User Account
 * `exit` - Exiting Chroot
 * `reboot now` - Rebooting to Installed Arch Linux
 * Login to tty1 with the username and password you chose
-* `startx` - This will initiate the i3wm. It would look something like the image given below
 <div align=center>
     <img src="images/init.png" />
 </div>
