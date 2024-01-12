@@ -110,15 +110,15 @@ This guide covers everything you need to install a full fledged Arch Linux Syste
 then save (Ctrl + S) and exit (Ctrl + X)
 
 - `pacstrap /mnt base linux linux-firmware vim nano btrfs-progs` - Select the default.
-  > **NOTE:** If you want **Linux Zen** Kernel, replace "`linux`" with "`linux-zen`".\
-  > **Don't** replace "`linux-firmware`".\
-  > Also, if you are using **Ext4**, then "`btrfs-progs`" is **not** needed.
+> **NOTE:** If you want **Linux Zen** Kernel, replace "`linux`" with "`linux-zen`".\
+> **Don't** replace "`linux-firmware`".\
+> Also, if you are using **Ext4**, then "`btrfs-progs`" is **not** needed.
 - `genfstab -U /mnt >> /mnt/etc/fstab` - Generating fstab configuration
 
 # Chrooting
 
 - `arch-chroot /mnt`
-  > **NOTE:** Chroot environment is the environment running inside the root directory of the new system. It is the environment in which the installation actually takes place. Do not exit this environment until the installation is complete, or the system may not boot properly. Also, don't be confused if you see same commands again. It's because you are now in the new system.
+> **NOTE:** Chroot environment is the environment running inside the root directory of the new system. It is the environment in which the installation actually takes place. Do not exit this environment until the installation is complete, or the system may not boot properly. Also, don't be confused if you see same commands again. It's because you are now in the new system.
 
 ## Network Configuration
 
@@ -147,9 +147,9 @@ then save (Ctrl + S) and exit (Ctrl + X)
 then save (Ctrl + S) and exit (Ctrl + X)
 
 - `pacman -Syy sudo linux-headers efibootmgr grub intel-ucode git base-devel grub-btrfs dkms avahi os-prober ntfs-3g terminus-font`
-  > **NOTE:** If you have an **AMD Processor** instead, replace "`intel-ucode`" with "`amd-ucode`"\
-  > If you have installed "`linux-zen`" in the previous pacstrap command, then replace "`linux-headers`" with "`linux-zen-headers`"\
-  > Also, if you have Ext4 then "`grub-btrfs`" is not required.
+> **NOTE:** If you have an **AMD Processor** instead, replace "`intel-ucode`" with "`amd-ucode`"\
+> If you have installed "`linux-zen`" in the previous pacstrap command, then replace "`linux-headers`" with "`linux-zen-headers`"\
+> Also, if you have Ext4 then "`grub-btrfs`" is not required.
 
 ## Adding Console Font
 
@@ -166,8 +166,8 @@ then save (Ctrl + S) and exit (Ctrl + X)
 
 - `grub-install --target=x86_64-efi --bootloader-id="Arch Linux" --efi-directory=/boot/efi --recheck` - Installing GRUB
 
-  > **NOTE:** If your UEFI Entry disappears on reboot due to the requirement of known location to bootable file before showing up UEFI NVRAM Boot
-  > entries, just use "`--removable`" flag after the whole command.
+> **NOTE:** If your UEFI Entry disappears on reboot due to the requirement of known location to bootable file before showing up UEFI NVRAM Boot
+> entries, just use "`--removable`" flag after the whole command.
 
 - `nano /etc/default/grub` - Uncomment the line at the end of file saying "`GRUB_DISABLE_OS_PROBER=false`"
 - `mkinitcpio -P` - Generating Initramfs
@@ -175,7 +175,8 @@ then save (Ctrl + S) and exit (Ctrl + X)
 
 ## Installing KDE Plasma Desktop Environment
 
-- `pacman -S plasma plasma-wayland-session kde-applications sddm gnu-free-fonts noto-fonts noto-fonts-emoji packagekit-qt5 gnome-keyring cronie pipewire-media-session pipewire-jack phonon-qt5-vlc tesseract-data-ind python-pyqt5 xdg-desktop-portal-kde` - Read carefully and select the options\
+- `pacman -S plasma plasma-wayland-session kde-applications sddm gnu-free-fonts noto-fonts noto-fonts-emoji packagekit-qt5 gnome-keyring cronie pipewire-media-session pipewire-jack phonon-qt5-vlc tesseract-data-ind python-pyqt5 xdg-desktop-portal-kde`
+- Read carefully and select the options\
   Go for `all` in the options, then wait till installation
 - `pacman -R colord colord-kde` - Fixes screen color issues
 - `systemctl enable NetworkManager sddm avahi-daemon` - Enabling KDE's NetworkManager, Display Manager and Avahi Daemon
@@ -250,7 +251,7 @@ Description=Update NVIDIA module in initcpio
 Depends=mkinitcpio
 When=PostTransaction
 NeedsTargets
-Exec=/bin/sh -c 'while read -r trg; do case $trg in linux) exit 0; esac; done; /usr/bin/mkinitcpio -P'
+Exec=/bin/sh -c 'while read -r trg; do case \$trg in linux) exit 0; esac; done; /usr/bin/mkinitcpio -P'
 EOF
 ```
 
@@ -260,7 +261,7 @@ Save (Ctrl + S) and Exit (Ctrl + X)
 
 - `yay -S nvidia-dkms nvidia-utils lib32-nvidia-utils opencl-nvidia lib32-opencl-nvidia nvidia-settings` - Installing NVIDIA Drivers
 
-  > **NOTE:** Some **Laptops** come with NVIDIA Optimus Technology by which the NVIDIA GPU is used only when needed, otherwise an Integrated Intel/AMD GPU is used. If you have such a laptop, then expand and follow the Optimus section below. This is usually **not required for Desktops**.
+> **NOTE:** Some **Laptops** come with NVIDIA Optimus Technology by which the NVIDIA GPU is used only when needed, otherwise an Integrated Intel/AMD GPU is used. If you have such a laptop, then expand and follow the Optimus section below. This is usually **not required for Desktops**.
 
 <details>
   <summary>Optional: NVIDIA Optimus</summary>
@@ -331,14 +332,14 @@ Save (Ctrl + S) and Exit (Ctrl + X)
 
 - `yay -S plymouth-theme-arch-breeze-git`
 - `sudo plymouth-set-default-theme -R arch-breeze`
-  > **NOTE**: To list all available themes, run `plymouth-set-default-theme -l`
+> **NOTE**: To list all available themes, run `plymouth-set-default-theme -l`
 - `reboot` - Reboot to complete installation
 
 ## Install a better GRUB Theme (Xenlism GRUB Theme)
 
 - `git clone https://github.com/xenlism/Grub-themes.git`
 - `cd ./Grub-themes/xenlism-grub-arch-1080p/`
-  > **NOTE:** If your monitor has a higher resolution than 1080p, then select the theme directory accordingly.
+> **NOTE:** If your monitor has a higher resolution than 1080p, then select the theme directory accordingly.
 - `sudo ./install.sh`
 - `reboot now` - Reboot to complete installation
 
@@ -353,7 +354,6 @@ Save (Ctrl + S) and Exit (Ctrl + X)
 - `sudo pacman -S zsh zshdb zsh-syntax-highlighting zsh-autosuggestions zsh-history-substring-search`
 - `touch ~/.zshrc` - Create Initial Empty Zsh Config
 - `chsh -s /bin/zsh` - Change Default Shell to Zsh
-  zsh
 - `sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"` - Install Oh-My-Zsh on top of zsh
 - `nano .zshrc`
 
