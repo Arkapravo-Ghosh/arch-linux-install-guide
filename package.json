@@ -1,0 +1,14 @@
+{
+  "name": "arch-linux-install-guide",
+  "description": "Friendly Guide for installing Arch Linux. This guide covers everything you need to do while installing Arch Linux",
+  "author": "Arkapravo Ghosh",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vuepress dev",
+    "build": "vuepress build"
+  },
+  "devDependencies": {
+    "vuepress": "^2.0.0-rc.0"
+  }
+}
