@@ -1,9 +1,13 @@
-import { defineUserConfig, defaultTheme } from "vuepress";
+import { defineUserConfig } from "vuepress";
+import { defaultTheme } from "@vuepress/theme-default";
+import { viteBundler } from "@vuepress/bundler-vite";
 
 export default defineUserConfig({
   lang: "en-US",
   title: "Arch Linux Installation Guide",
   description: "Friendly Guide for installing Arch Linux. This guide covers everything you need to do while installing Arch Linux",
+  bundler: viteBundler(),
+  pagePatterns: ["**/*.md", "!README.md", "!node_modules/**", "!.vuepress/**"],
   theme: defaultTheme({
     editLink: true,
     repo: "https://github.com/Arkapravo-Ghosh/arch-linux-install-guide",
